@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, models } from "mongoose";
 
 interface NoteInterface extends Document {
   title: string;
@@ -26,5 +26,5 @@ const noteSchema = new Schema<NoteInterface>(
   { timestamps: true }
 );
 
-const NoteModel = model<NoteInterface>("Note", noteSchema);
+const NoteModel =models.Note || model("Note", noteSchema);
 export default NoteModel;

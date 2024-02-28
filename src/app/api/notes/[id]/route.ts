@@ -3,7 +3,7 @@ import NoteModel from "@/models/Note.models";
 import { NextResponse, NextRequest } from "next/server";
 // ---------------------------------------------------------------
 
-export const GET = async (request:NextRequest ,response:NextResponse, {params}:{params:{id:string}})  => {
+export const GET = async (request:NextRequest , {params}:{params:{id:string}})  => {
   await connectDB();
     try {
        const { id } = params
@@ -11,20 +11,21 @@ export const GET = async (request:NextRequest ,response:NextResponse, {params}:{
        return NextResponse.json(findNoteById)
     
    } catch (error) {
-    return NextResponse.json({error : "Note note found"})
+    return NextResponse.json({message : "Note note found"})
+    // return NextResponse.json({error});
    }
 }
 
 // ---------------------------------------------------------------
 
-export const PUT = async (request:NextRequest ,response:NextResponse, {params}:{params:{id:string}}) => {
+export const PUT = async (request:NextRequest , {params}:{params:{id:string}}) => {
   await connectDB();
     try {
 
       const { id } = params;
       const {title,content,status} = await request.json();
       const updatedNote = await NoteModel.findByIdAndUpdate( id, {title,content,status} )
-      return NextResponse.json(updatedNote)
+      return NextResponse.json({message: "Note Updated Successfully"})
 
     } catch (error) {
       return NextResponse.json({message: error})
@@ -33,7 +34,7 @@ export const PUT = async (request:NextRequest ,response:NextResponse, {params}:{
 
 // ---------------------------------------------------------------
 
-export const DELETE = async (request:NextRequest ,response:NextResponse, {params}:{params:{id:string}}) => {
+export const DELETE = async (request:NextRequest , {params}:{params:{id:string}}) => {
 
     await connectDB();
     try {
@@ -43,7 +44,6 @@ export const DELETE = async (request:NextRequest ,response:NextResponse, {params
       return NextResponse.json({message: "item deleted Successfully"})
 
     } catch (error) {
-
       return NextResponse.json({message: error})
     }
 }

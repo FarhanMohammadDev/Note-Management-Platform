@@ -2,8 +2,11 @@ import connectDB from "@/configs/connectDb";
 import NoteModel from "@/models/Note.models";
 import { NextResponse, NextRequest } from "next/server";
 // ---------------------------------------------------------------
+type PropsType ={
+  params:{ id:string }
+}
 
-export const GET = async (request:NextRequest , {params}:{params:{id:string}})  => {
+export const GET = async (request:NextRequest , {params}:PropsType)  => {
   await connectDB();
     try {
        const { id } = params
@@ -18,7 +21,7 @@ export const GET = async (request:NextRequest , {params}:{params:{id:string}})  
 
 // ---------------------------------------------------------------
 
-export const PUT = async (request:NextRequest , {params}:{params:{id:string}}) => {
+export const PUT = async (request:NextRequest , {params}:PropsType) => {
   await connectDB();
     try {
 
@@ -34,7 +37,7 @@ export const PUT = async (request:NextRequest , {params}:{params:{id:string}}) =
 
 // ---------------------------------------------------------------
 
-export const DELETE = async (request:NextRequest , {params}:{params:{id:string}}) => {
+export const DELETE = async (request:NextRequest , {params}:PropsType) => {
 
     await connectDB();
     try {

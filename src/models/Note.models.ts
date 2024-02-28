@@ -1,12 +1,12 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-interface Note extends Document {
+interface NoteInterface extends Document {
   title: string;
   content: string;
   status: string;
 }
 
-const noteSchema = new Schema<Note>(
+const noteSchema = new Schema<NoteInterface>(
   {
     title: {
       type: String,
@@ -26,5 +26,5 @@ const noteSchema = new Schema<Note>(
   { timestamps: true }
 );
 
-const NoteModel = model<Note>("Note", noteSchema);
+const NoteModel = model<NoteInterface>("Note", noteSchema);
 export default NoteModel;

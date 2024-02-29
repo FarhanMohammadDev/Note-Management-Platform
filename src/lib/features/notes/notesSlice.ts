@@ -6,6 +6,13 @@ export interface Note {
     content: string;
     status: string;
 }
+
+export interface InitialNote {
+    id ?: string;
+    isLoading :boolean;
+    notes: Note[];
+    error:string
+}
 // ------------------------------------------Api Calls-------------------------------------------
 
 export const fetchNotesThunk = createAsyncThunk(
@@ -128,7 +135,7 @@ export const deleteNoteThunk = createAsyncThunk(
 
 
 // -------------------------------------------------------------------------------------
-const initialState= {
+const initialState : InitialNote= {
     isLoading: false,
     notes: [],
     error: "",

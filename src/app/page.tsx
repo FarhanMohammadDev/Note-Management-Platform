@@ -1,8 +1,27 @@
+"use client"
 
-export default function Home() {
+import { useState } from "react";
+import MainContent from "./components/MainContent";
+import Sidebar from "./components/Sidebar";
+
+const Home: React.FC = () => {
+  
+  const [isShow, setIsShow] = useState<boolean>(true);
+
+  const handleToggleSidebar = () => {
+    console.log("Toggle sidebar");
+    setIsShow(!isShow);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>hello world !</h1>
-    </main>
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar isShow={isShow} onShow={handleToggleSidebar} />
+
+      {/* Main content */}
+      <MainContent onShow={handleToggleSidebar} />
+    </div>
   );
-}
+};
+
+export default Home;

@@ -1,13 +1,13 @@
 "use client"
 
-interface MainContentProps {
+interface NavbarProps {
     onShow: () => void;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ onShow }) => {
+const Navbar: React.FC<NavbarProps> = ({ onShow }) => {
 
     return (
-        <div className="flex flex-col flex-1 overflow-y-auto">
+        <div>
             <div className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
                 <div className="flex items-center px-4">
                     <button className="text-gray-500 focus:outline-none focus:text-gray-700"
@@ -33,12 +33,8 @@ const MainContent: React.FC<MainContentProps> = ({ onShow }) => {
                     </button>
                 </div>
             </div>
-            <div className="p-4">
-                <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
-                <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p>
-            </div>
         </div>
     )
 }
 
-export default MainContent;
+export default Navbar;

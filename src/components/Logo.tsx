@@ -2,11 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function Logo () {
+export default function Logo() {
   return (
-    <Link href="/" className="flex items-end gap-2 p-4 py-6">
-      <Image src="/logo.png" 
-      width={60} height={60} alt="logo" />
+    <Link href="/dashboard/notes" className="flex items-end gap-2 p-4 py-6">
+      <Image
+        src="/logo.png"
+        width={60}
+        height={60}
+        alt="logo"
+      />
       <div className="relative">
         <h1 className="capitalize text-white text-xl font-bold tracking-wide">
         </h1>

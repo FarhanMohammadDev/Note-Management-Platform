@@ -16,13 +16,25 @@ interface NoteDataProps {
 const NoteItem: FC<NoteDataProps> = ({ data, onShow }) => {
 
     const router = useRouter();
+
+
+    const formatDate = (dateString : any) => {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        const formattedDate = new Date(dateString).toLocaleDateString(undefined, options as object);
+        return formattedDate;
+      };
+console.log(formatDate(data.createdAt));
+
+    // const formattedCreatedAt = new Date(data.createdAt).toLocaleDateString('en-GB');
+    // console.log("formattedCreatedAt :", formattedCreatedAt);
+    
     return (
         <>
             <div
                 className="max-w-sm p-6 border-1 border-gray-900 rounded-lg bg-slate-100 shadow cursor-pointer drop-shadow-xl h-70"
-                onDoubleClick={() => router.push(`/dashboard/notes/${data.id}`)}
+                onDoubleClick={() => router.push(`/dashboard/notes/${data._id}`)}
             >
-                <div>
+                {/* <div>
                     {data.priority === 'important' ?
                         (
                             <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
@@ -37,24 +49,24 @@ const NoteItem: FC<NoteDataProps> = ({ data, onShow }) => {
                             </span>
                         )
                     }
-                </div>
+                </div> */}
                 <h5 className="mb-2 text-2xl font-bold tracking-tight  dark:text-slate-900 hover:pointer">
                     {data.title}
                 </h5>
                 <hr />
                 <article className="mb-2 font-normal text-gray-900 dark:text-gray-600 h-24 md:line-clamp-4 sm:line-clamp-1 overflow-hidden">
-                    {data.description}
+                    {data.content}
                 </article>
 
                 <div className="flex justify-between">
                     {/* <Status status={status} /> */}
 
-                    <span className="bg-red-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                    {/* <span className="bg-red-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                         Deadline : {data.deadline}
-                    </span>
+                    </span> */}
 
                     <span className="bg-red-100 text-blue-900 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-400 dark:text-blue-900">
-                        Created at : {data.created_at}
+                        Created at : {formatDate(data.createdAt)}
                     </span>
                 </div>
 

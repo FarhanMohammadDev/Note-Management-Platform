@@ -1,89 +1,85 @@
-"use client"
+"use client";
 
-import { useState } from "react";
-import NoteItem from "../../../components/NoteItem";
-import { NoteData } from "@/app/constants/types/noteItem";
+import { useEffect, useState } from "react";
 import AddNote from "@/components/AddNote";
 import Modal from "@/components/Modal";
+import { AppDispach, RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteNoteThunk,
+  fetchNotesThunk,
+} from "@/lib/features/notes/notesSlice";
+import ItemNote from "@/components/ItemNote";
 
 export default function Notes() {
+  const dispatch = useDispatch<AppDispach>();
+  const { isLoading, notes, error } = useSelector(
+    (state: RootState) => state.notes
+  );
 
+  const getANotes = async () => {
+    await dispatch(fetchNotesThunk());
+  };
 
-    const [showModal, setShowModal] = useState<boolean>(false);
+  useEffect(() => {
+    getANotes();
+  }, [dispatch]);
 
-    const handleShowModal = () => {
-        setShowModal(!showModal);
-    }
+  console.log("notes :", notes);
 
-    // Testing data ------------------------------------------
-    const [formData, setFormData] = useState<NoteData[]>([
+  const deleteNote = async (id: string) => {
+    await dispatch(deleteNoteThunk(id));
+    getANotes();
+  };
 
-        {
-            id: "1",
-            title: "Go to the Grocery",
-            description: "Buy alimentation for this week",
-            status: "Pending",
-            priority: "important",
-            created_at: "22/04/2024",
-            deadline: "23/04/2024"
-        },
-        {
-            id: "2",
-            title: "Go to the Gym 🦾",
-            description: "Legs day training",
-            status: "Completed",
-            priority: "not important",
-            created_at: "22/04/2024",
-            deadline: "23/04/2024"
-        },
-        {
-            id: "3",
-            title: "Learn Next.Js 💻",
-            description: "Learn Next.js by reading the official documentation",
-            status: "Uncompleted",
-            priority: "important",
-            created_at: "22/04/2024",
-            deadline: "23/04/2024"
-        },
-        {
-            id: "4",
-            title: "Drinking water 🥤 eating healthy🥗",
-            description: "Drink 2L water per day",
-            status: "Completed",
-            priority: "important",
-            created_at: "22/04/2024",
-            deadline: "23/04/2024"
-        },
-        {
-            id: "5",
-            title: "Chilling out with friends ✨",
-            description: "Drink 2L water per day",
-            status: "Completed",
-            priority: "important",
-            created_at: "22/04/2024",
-            deadline: "23/04/2024"
-        }
-    ]);
-    // --------------------------------------------------------
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-    return (
-        // <div className="p-5 flex flex-col min-h-screen">
-        <div className="p-5 flex flex-col">
-            <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
-            <p className="mt-2 text-gray-600">Organize your day more easily with us.</p>
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
 
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-8 pb-14'>
-                {
-                    formData.map((data, index) => (
-                        <NoteItem key={index} data={data} onShow={handleShowModal} />
-                    ))
+  // --------------------------------------------------------
+  return (
+    <div className="p-5 flex flex-col">
+      <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
+      <p className="mt-2 text-gray-600">
+        Organize your day more easily with us.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-8 pb-14">
+        {notes.map(
+          (
+            note: {
+              _id: string;
+              title: string;
+              content: string;
+              status: string;
+              createdAt: string;
+            },
+            index: any
+          ) => {
+            return (
+              <ItemNote
+                data={note}
+                key={index}
+                deleteNote={deleteNote}
+                onShow={handleShowModal}
+                styleColor={
+                  note.status === "to do"
+                    ? "yellow-400"
+                    : note.status === "doing"
+                    ? "blue-400"
+                    : note.status === "done"
+                    ? "green-500"
+                    : ""
                 }
-                <AddNote />
-            </div>
-            {
-                showModal ? <Modal onShow={handleShowModal} /> : null
-            }
-
-        </div>
-    )
+              />
+            );
+          }
+        )}
+        <AddNote />
+      </div>
+      {showModal ? <Modal onShow={handleShowModal} deleteNote={deleteNote} /> : null}
+    </div>
+  );
 }

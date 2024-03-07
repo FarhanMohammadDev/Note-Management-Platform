@@ -1,10 +1,9 @@
 // types.ts
 export interface NoteData {
-    id: string;
+    _id: string;
     title: string;
-    description: string;
+    content: string;
     status: string;
-    priority: string;
-    created_at: string;
-    deadline: string;
+    createdAt: string;
 }
+
